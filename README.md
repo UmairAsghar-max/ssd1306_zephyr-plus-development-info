@@ -29,9 +29,10 @@ Change the "`set(BOARD nrf52_pca10040)`" in the CMakeFile.txt for other supporte
 
 The following componets need to be configured though "make menuconfig".  
 
- * Drivers->i2c: I2C-master support for your board/SOC.
- * Drivers->display: Display + SSD1306
- * Subsys->fb: FrameBuffer (cfb)
+ * Drivers->i2c: I2C-master support for your board/SOC === Allow us to use SOC I2C commands by turning the I2C Controller Active,,, that can be sent to other devices
+ * Drivers->display: Display + SSD1306 === Allow the I2C controller to decode the I2C commands,,, this driver make the SSD1306 available on I2C Controller
+        - If we just allow SSD1306,,, the driver provide just single level commands to send data to display, But we don't want that we want to send data in more stream format
+ * Subsys->fb: FrameBuffer (cfb) === To send data in more stream format we use cfb as a abstraction to SSD1306
  * General Kernel Options->Other Kernel Object Option: Heap Memory Pool Size
 
 The tricky part of the software configuration seems to be in setting up the **.overlay* file and the *prj.conf* file.  This requires some knowledge about the build-configuration process for zephyr.  
